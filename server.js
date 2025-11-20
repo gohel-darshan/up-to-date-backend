@@ -3,7 +3,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
-const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
 const dbConnection = require('./utils/database');
@@ -15,13 +14,6 @@ const app = express();
 // Security middleware
 app.use(helmet());
 app.use(compression());
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
 
 // CORS configuration
 app.use(cors({
@@ -70,6 +62,12 @@ const loadRoutes = async () => {
           break;
         case 'usersRoute.js':
           app.use('/api/users', route);
+          break;
+        case 'userRoute.js':
+          app.use('/api/user', route);
+          break;
+        case 'orderRoute.js':
+          app.use('/api/orders', route);
           break;
       }
     }

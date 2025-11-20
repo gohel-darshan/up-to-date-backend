@@ -1,13 +1,12 @@
 const express = require('express');
-const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { authenticateAdmin } = require('../middleware/auth');
 const dbConnection = require('../utils/database');
 
 const router = express.Router();
 const prisma = dbConnection.getInstance();
 
-// Apply authentication and admin middleware to all routes
-router.use(authenticateToken);
-router.use(requireAdmin);
+// Apply admin authentication middleware to all routes
+router.use(authenticateAdmin);
 
 // Enhanced Dashboard Stats with Analytics
 router.get('/dashboard/stats', async (req, res) => {
